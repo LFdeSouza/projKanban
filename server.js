@@ -1,17 +1,19 @@
 import "dotenv/config";
 import express from "express";
-import userRouter from "./routes/api/user.js";
+import authRouter from "./routes/api/authRouter.js";
 import boardRouter from "./routes/api/board.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
 //Middleware
 app.use(express.json({ extended: false }));
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 //Routes
 app.get("/", (req, res) => res.send("Hello, world"));
-app.use("/users", userRouter);
+app.use("/users", authRouter);
 app.use("/boards", boardRouter);
 
 //Run server

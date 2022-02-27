@@ -1,7 +1,9 @@
 import express from "express";
+import { deleteUser, registerUser } from "../../controllers/userCtrl.js";
 
 const userRouter = express.Router();
 
-userRouter.route("/").get((req, res) => res.send("Hello from users"));
+userRouter.route("/").post(registerUser);
+userRouter.route("/:id").delete(deleteUser);
 
 export default userRouter;

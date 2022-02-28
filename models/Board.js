@@ -1,17 +1,17 @@
 import { default as mongoose } from "mongoose";
 
-const columnSchema = new mongoose.Schema(
+export const columnSchema = new mongoose.Schema(
   {
-    title: { type: String, required: true },
+    title: { type: String, required: [true, "Columns must have a title"] },
     taskIds: [mongoose.Schema.Types.ObjectId],
     description: { type: String },
   },
   { timestamps: true }
 );
 
-const taskSchema = new mongoose.Schema(
+export const taskSchema = new mongoose.Schema(
   {
-    content: { type: String, required: true },
+    title: { type: String, required: [true, "Tasks must have a title"] },
     label: { type: String },
     description: { type: String },
   },
@@ -19,10 +19,14 @@ const taskSchema = new mongoose.Schema(
 );
 
 const boardSchema = new mongoose.Schema({
-  title: { type: String, required: true },
+  title: { type: String, required: [true, "Boards must have a title"] },
   description: { type: String },
   columns: [columnSchema],
   tasks: [taskSchema],
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user",
+  },
 });
 
 export const Board = mongoose.model("board", boardSchema);

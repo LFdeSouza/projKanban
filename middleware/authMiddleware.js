@@ -9,7 +9,6 @@ export const requireAuth = (req, res, next) => {
 
   try {
     const decodedToken = jsonwebtoken.verify(token, process.env.TOKEN_SECRET);
-    console.log(decodedToken);
     req.user = decodedToken.user;
     next();
   } catch (err) {

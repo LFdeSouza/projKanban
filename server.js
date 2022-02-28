@@ -1,6 +1,6 @@
 import "dotenv/config";
 import express from "express";
-import authRouter from "./routes/api/authRouter.js";
+import userRouter from "./routes/api/userAuth.js";
 import boardRouter from "./routes/api/board.js";
 import cookieParser from "cookie-parser";
 
@@ -13,7 +13,7 @@ app.use(cookieParser());
 
 //Routes
 app.get("/", (req, res) => res.send("Hello, world"));
-app.use("/users", authRouter);
+app.use("/users", userRouter);
 app.use("/boards", boardRouter);
 
 //Run server

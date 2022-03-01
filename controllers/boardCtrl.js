@@ -105,6 +105,28 @@ export const editColumn = async (req, res) => {
   }
 };
 
+export const updateColumnTaskOrder = async (req, res) => {
+  try {
+    const board = await Board.findById(req.params.boardId);
+    if (!board) return res.status(400).json({ msg: "Board not found" });
+
+    console.log(board);
+    const column = board.columns.id(req.params.columnId);
+    if (!column) return res.status(400).json({ msg: "Column not found" });
+    console.log(column);
+    //Remove task from array
+    column.taskIds.splice(req.body.taskStart, 1);
+
+    //Add task to new position
+    column.taskIds.splice(req.body.taskEnd, 0, req.body.taskId);
+    await board.save();
+    return res.json({ taskOrder: column.taskOrder });
+  } catch (err) {
+    const errors = handleErrors(err);
+    return res.status(400).json(errors);
+  }
+};
+
 export const deleteColumn = async (req, res) => {
   try {
     const board = await Board.findById(req.params.boardId);
@@ -148,7 +170,7 @@ export const createTask = async (req, res) => {
   }
 };
 
-export const updateTask = async (req, res) => {
+export const editTask = async (req, res) => {
   try {
     const board = await Board.findById(req.params.boardId);
     if (!board) return res.status(400).json({ msg: "Board not found" });

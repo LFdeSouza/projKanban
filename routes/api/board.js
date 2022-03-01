@@ -8,9 +8,10 @@ import {
   createColumn,
   editColumn,
   editBoard,
+  updateColumnTaskOrder,
   deleteColumn,
   createTask,
-  updateTask,
+  editTask,
   deleteTask,
 } from "../../controllers/boardCtrl.js";
 
@@ -26,11 +27,16 @@ boardRouter.delete("/:id", requireAuth, deleteBoard);
 // Columns
 boardRouter.post("/columns/:id", requireAuth, createColumn);
 boardRouter.put("/columns/:boardId/:columnId", requireAuth, editColumn);
+boardRouter.put(
+  "/columns/taskOrder/:boardId/:columnId",
+  requireAuth,
+  updateColumnTaskOrder
+);
 boardRouter.delete("/columns/:boardId/:columnId", requireAuth, deleteColumn);
 
 // Tasks
 boardRouter.post("/tasks/:boardId/:columnId", requireAuth, createTask);
-boardRouter.put("/tasks/:boardId/:columnId/:taskId", requireAuth, updateTask);
+boardRouter.put("/tasks/:boardId/:columnId/:taskId", requireAuth, editTask);
 boardRouter.delete(
   "/tasks/:boardId/:columnId/:taskId",
   requireAuth,

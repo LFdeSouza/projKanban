@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .hr {
+    @apply relative border-0 text-center h-[1px];
+  }
+  .hr:before {
+    @apply absolute left-0 content-[""] h-[1px] w-full bg-gunmetal-100;
+  }
+}

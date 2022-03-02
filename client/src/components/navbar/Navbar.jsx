@@ -3,36 +3,92 @@ import { Link } from "react-router-dom";
 import { BadgeCheckIcon, MenuIcon } from "@heroicons/react/solid";
 
 const Navbar = () => {
-  return (
-    <div className="relative">
-      <div className="flex justify-start gap-5 py- 3 px-10 bg-gunmetal-400 shadow">
-        <div className="py-2">
-          <Link
-            to="/"
-            className="flex items-center gap-2 text-gray-50 font-bold text-lg"
-          >
-            <span>
-              <BadgeCheckIcon className="text-indigo-500 w-10 h-10" />
-            </span>
-            Kanban
-          </Link>
-        </div>
-        <button className="text-white cursor-pointer md:hidden">
-          <span>
-            <MenuIcon className="text-gray-200 h-7" />
-          </span>
-        </button>
-      </div>
+  const menu = document.querySelector("#main-menu");
+  const toggleMenu = (e) => {
+    menu.classList.toggle("top-[-225px]");
+  };
 
-      <ul className="py-5 bg-gunmetal-100 absolute w-2/3 p-5 shadow ">
-        <p className="text-gunmetal-400 border-b border-b-gunmetal-200 p-2 text-center">
-          Menu
-        </p>
-        {/* usernave nav */}
-        <li className="text-gunmetal-500 p-2 text-center">
-          <Link to="/">Boards</Link>
-        </li>
-      </ul>
+  return (
+    <div className="bg-gunmetal-500">
+      <div className="p-3 mx-auto w-full">
+        <div className="flex items-end justify-between">
+          <div className="flex items-end">
+            <span className="flex justify-center items-center space-x-2 cursor-pointer">
+              <BadgeCheckIcon className="h-8 w-8 text-indigo-500" />
+              <p className="text-2xl text-gray-100 font-extrabold">Kanban</p>
+            </span>
+            <ul
+              id="main-menu"
+              className="md:flex z-[-1] md:z-auto px-3 lg:px-10 md:space-x-1 md:static absolute top-[56px] left-0 w-full py-5 md:py-0 bg-gunmetal-300 md:bg-transparent transition-all duration-300"
+            >
+              <li className="my-3 md:my-0 mx-3 md:mx-3">
+                <Link
+                  to="/"
+                  className="text-gray-100 text-lg hover:underline hover:text-gunmetal-400 md:hover:text-gunmetal-200 duration-200"
+                >
+                  Boards
+                </Link>
+              </li>
+              <li className="my-3 md:my-0 mx-3">
+                <Link
+                  to="/"
+                  className="text-gray-100 text-lg hover:underline hover:text-gunmetal-400 md:hover:text-gunmetal-200 duration-200"
+                >
+                  Boards
+                </Link>
+              </li>
+              <hr className="hr md:hidden" />
+              <li className="my-3 md:my-0 mx-3 md:hidden">
+                <Link
+                  to="/"
+                  className="text-gray-100 text-lg hover:underline hover:text-gunmetal-400 duration-200"
+                >
+                  Login
+                </Link>
+              </li>
+              <li className="my-3 md:my-0 mx-3 md:hidden">
+                <Link
+                  to="/"
+                  className="text-gray-100 text-lg hover:underline hover:text-gunmetal-400 duration-200"
+                >
+                  Logout
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul className="hidden md:flex px-3 lg:px-10 md:space-x-3 md:static absolute top-[56px] left-0 w-full py-5 md:py-0 bg-gunmetal-300 md:bg-transparent transition-all duration-300">
+              <li className="my-3 md:my-0 mx-3 ">
+                <Link
+                  to="/"
+                  className="text-gray-100 text-lg hover:underline hover:text-gunmetal-400 md:hover:text-gunmetal-200 duration-200"
+                >
+                  Picture
+                </Link>
+              </li>
+              <li className="my-3 md:my-0 mx-3 ">
+                <Link
+                  to="/"
+                  className="text-gray-100 text-lg hover:underline hover:text-gunmetal-400 md:hover:text-gunmetal-200 duration-200"
+                >
+                  Login
+                </Link>
+              </li>
+              <li className="my-3 md:my-0 mx-3 ">
+                <Link
+                  to="/"
+                  className="text-gray-100 text-lg hover:underline hover:text-gunmetal-400 md:hover:text-gunmetal-200 duration-200"
+                >
+                  Logout
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <button className="md:hidden px-10" onClick={(e) => toggleMenu(e)}>
+            <MenuIcon className="w-8 h-8 text-gunmetal-100" />
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

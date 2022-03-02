@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { BadgeCheckIcon, MenuIcon } from "@heroicons/react/solid";
+import { BadgeCheckIcon, MenuIcon } from "@heroicons/react/outline";
 
 const Navbar = () => {
-  const menu = document.querySelector("#main-menu");
   const toggleMenu = (e) => {
-    menu.classList.toggle("top-[-225px]");
+    const menu = document.querySelector("#main-menu");
+    menu.classList.toggle("translate-y-[236px]");
   };
 
   return (
@@ -19,7 +19,7 @@ const Navbar = () => {
             </span>
             <ul
               id="main-menu"
-              className="md:flex z-[-1] md:z-auto px-3 lg:px-10 md:space-x-1 md:static absolute top-[56px] left-0 w-full py-5 md:py-0 bg-gunmetal-300 md:bg-transparent transition-all duration-300"
+              className="md:flex -z-10 md:z-auto px-3 lg:px-10 md:space-x-1 md:static absolute left-0 w-full py-5 md:py-0 bg-gunmetal-300 md:bg-transparent transition-top duration-300"
             >
               <li className="my-3 md:my-0 mx-3 md:mx-3">
                 <Link
@@ -84,7 +84,7 @@ const Navbar = () => {
               </li>
             </ul>
           </div>
-          <button className="md:hidden px-10" onClick={(e) => toggleMenu(e)}>
+          <button className="md:hidden px-10" onClick={() => toggleMenu()}>
             <MenuIcon className="w-8 h-8 text-gunmetal-100" />
           </button>
         </div>

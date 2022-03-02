@@ -9,4 +9,18 @@
   .hr:before {
     @apply absolute left-0 content-[""] h-[1px] w-full bg-gunmetal-100;
   }
+
+  ::-webkit-scrollbar {
+    @apply w-2;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-gunmetal-100 rounded-lg;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gunmetal-300 rounded-lg;
+  }
+
+  .task:hover .edit-task {
+    @apply visible;
+  }
 }

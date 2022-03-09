@@ -8,7 +8,7 @@ const Task = ({ task, index }) => {
     <Draggable draggableId={task.id} index={index}>
       {(provided, snapshot) => (
         <div
-          className=" task p-2 m-2 bg-gunmetal-10 hover:bg-gunmetal-20 rounded flex justify-between"
+          className=" task p-2 mb-2 bg-gunmetal-10 hover:bg-gunmetal-20 rounded flex justify-between shadow-sm"
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}

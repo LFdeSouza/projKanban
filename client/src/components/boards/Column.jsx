@@ -9,7 +9,7 @@ const Column = ({ column, tasks, index }) => {
     <Draggable draggableId={column.id} index={index}>
       {(provided) => (
         <div
-          className="bg-gunmetal-50 p-1 rounded-md shadow-lg h-full "
+          className="bg-gunmetal-50 p-1 mr-5 rounded-md shadow-lg h-full "
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
@@ -19,7 +19,7 @@ const Column = ({ column, tasks, index }) => {
             <Droppable droppableId={column.id}>
               {(provided) => (
                 <div
-                  className="max-h-96 overflow-auto"
+                  className="max-h-96 p-1 overflow-auto"
                   ref={provided.innerRef}
                   {...provided.droppableProps}
                 >

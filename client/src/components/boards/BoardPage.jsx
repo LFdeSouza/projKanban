@@ -79,7 +79,7 @@ const Board = () => {
             {...provided.droppableProps}
             ref={provided.innerRef}
           >
-            <div className="mt-14 p-10 flex gap-5 overflow-auto">
+            <div className="mt-14 p-10 flex overflow-auto">
               {state.columnOrder.map((columnId, index) => {
                 const column = state.columns[columnId];
 

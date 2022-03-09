@@ -8,23 +8,13 @@ const Task = ({ task, index }) => {
     <Draggable draggableId={task.id} index={index}>
       {(provided, snapshot) => (
         <div
-          className={` bg-gunmetal-10 hover:bg-gray-200 shadow-md rounded"
-          }`}
+          className=" task p-2 m-2 bg-gunmetal-10 hover:bg-gunmetal-20 rounded flex justify-between"
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
-          // isDragging={snapshot.isDragging}
         >
-          <ul className="space-y-4">
-            <li className="task my-2 flex justify-between items-center cursor-pointer break-all">
-              <a href="# " className="task p-2 text-sm">
-                {task.title}
-              </a>
-              <span className=" edit-task invisible">
-                <PencilIcon className=" edit-task invisiblew-3.5 h-3.5 m-1 text-gunmetal-300 " />
-              </span>
-            </li>
-          </ul>
+          <p>{task.title}</p>
+          <PencilIcon className="edit-task invisible h-5 w-5 text-gunmetal-100 mr-3" />
         </div>
       )}
     </Draggable>

@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import Column from "./Column";
+import ColumnMemo from "./ColumnMemo";
 import initialData from "./initialData";
 
 const Board = () => {
+  const [state, setState] = useState(initialData);
+
   const onDragEnd = (result) => {
     const { destination, source, draggableId, type } = result;
 
     if (!destination) {
       return;
     }
-    // TODO MEMOIZE
 
     //Location of draggable changed?
     if (
@@ -41,34 +42,34 @@ const Board = () => {
       newTaskIds.splice(destination.index, 0, draggableId);
 
       const newColumn = { ...startColumn, taskIds: newTaskIds };
-      console.log(newColumn);
       setState({
         ...state,
         columns: { ...state.columns, [newColumn.id]: newColumn },
       });
-      console.log(state);
     }
 
     //Moving from different columns
-    const startTaskIds = [...startColumn.taskIds];
-    startTaskIds.splice(source.index, 1);
-    const newStart = { ...startColumn, taskIds: startTaskIds };
+    else if (startColumn !== finishColumn) {
+      const startTaskIds = [...startColumn.taskIds];
+      startTaskIds.splice(source.index, 1);
+      const newStart = { ...startColumn, taskIds: startTaskIds };
 
-    const finishTaskIds = [...finishColumn.taskIds];
-    finishTaskIds.splice(destination.index, 0, draggableId);
-    const newFinish = { ...finishColumn, taskIds: finishTaskIds };
+      const finishTaskIds = [...finishColumn.taskIds];
+      finishTaskIds.splice(destination.index, 0, draggableId);
+      const newFinish = { ...finishColumn, taskIds: finishTaskIds };
 
-    setState({
-      ...state,
-      columns: {
-        ...state.columns,
-        [newStart.id]: newStart,
-        [newFinish.id]: newFinish,
-      },
-    });
+      setState({
+        ...state,
+        columns: {
+          ...state.columns,
+          [newStart.id]: newStart,
+          [newFinish.id]: newFinish,
+        },
+      });
+    }
+    console.log(state);
   };
 
-  const [state, setState] = useState(initialData);
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable droppableId="columns" direction="horizontal" type="column">
@@ -81,15 +82,12 @@ const Board = () => {
             <div className="mt-14 p-10 flex gap-5 overflow-auto">
               {state.columnOrder.map((columnId, index) => {
                 const column = state.columns[columnId];
-                const tasks = column.taskIds.map(
-                  (taskId) => state.tasks[taskId]
-                );
 
                 return (
-                  <Column
+                  <ColumnMemo
                     key={column.id}
                     column={column}
-                    tasks={tasks}
+                    tasks={state.tasks}
                     index={index}
                   />
                 );

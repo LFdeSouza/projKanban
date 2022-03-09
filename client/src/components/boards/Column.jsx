@@ -2,14 +2,14 @@ import React from "react";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 import PropTypes from "prop-types";
 import { PlusIcon } from "@heroicons/react/solid";
-import Task from "./Task";
+import TaskMemo from "./TaskMemo";
 
 const Column = ({ column, tasks, index }) => {
   return (
     <Draggable draggableId={column.id} index={index}>
       {(provided) => (
         <div
-          className="bg-gunmetal-50 p-3 rounded-md shadow-lg h-full "
+          className="bg-gunmetal-50 p-1 rounded-md shadow-lg h-full "
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
@@ -23,9 +23,7 @@ const Column = ({ column, tasks, index }) => {
                   ref={provided.innerRef}
                   {...provided.droppableProps}
                 >
-                  {tasks.map((task, index) => (
-                    <Task key={task.id} task={task} index={index} />
-                  ))}
+                  <TaskMemo tasks={tasks} />
                   {provided.placeholder}
                   <button className="w-full flex justify-start items-center p-1 rounded-sm hover:bg-gunmetal-100 mt-2">
                     <PlusIcon className="edit-task w-5 h-5 text-gunmetal-300" />

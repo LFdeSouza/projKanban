@@ -22,9 +22,10 @@ export const moveTasks =
     });
   };
 
-export const addTask = (columnId) => (dispatch) => {
+export const addTask = (title, columnId) => (dispatch) => {
+  console.log(title, columnId);
   dispatch({
     type: C.ADD_TASK,
-    payload: columnId,
+    payload: { title, columnId, id: Math.random().toString() },
   });
 };

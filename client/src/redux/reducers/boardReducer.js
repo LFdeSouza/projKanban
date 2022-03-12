@@ -50,6 +50,11 @@ export const boardReducer = (state = initialState, action) => {
           payload.taskId
         );
       });
+    case C.ADD_TASK:
+      return produce(state, (draft) => {
+        draft.tasks[payload.id] = { title: payload.title, id: payload.id };
+        draft.columns[payload.columnId].taskIds.push(payload.id);
+      });
     default:
       return state;
   }

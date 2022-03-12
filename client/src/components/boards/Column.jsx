@@ -1,10 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 import PropTypes from "prop-types";
 import { PlusIcon } from "@heroicons/react/solid";
 import TaskMemo from "./TaskMemo";
+import { connect } from "react-redux";
+import { addTask } from "../../redux/actions/board";
 
-const Column = ({ column, tasks, index }) => {
+const Column = ({ column, tasks, index, addTask }) => {
+  const [taskForm, setTaskForm] = useState(false);
+  const [newTask, setNewTask] = useState("");
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    addTask(newTask, column.id);
+    setNewTask("");
+  };
+
   return (
     <Draggable draggableId={column.id} index={index}>
       {(provided) => (
@@ -25,12 +36,41 @@ const Column = ({ column, tasks, index }) => {
                 >
                   <TaskMemo tasks={tasks} />
                   {provided.placeholder}
-                  <button className="w-full flex justify-start items-center p-1 rounded-sm hover:bg-gunmetal-100 mt-2">
-                    <PlusIcon className="edit-task w-5 h-5 text-gunmetal-300" />
-                    <span className="text-sm text-gunmetal-300">
-                      Add a task
-                    </span>
-                  </button>
+                  {taskForm ? (
+                    <form onSubmit={(e) => onSubmit(e)}>
+                      <textarea
+                        name="newTask"
+                        placeholder="Enter a title for the new task..."
+                        onChange={(e) => setNewTask(e.target.value)}
+                        value={newTask}
+                        className="rounded-sm shadow-md bg-gray-100 text-sm p-3 text-gray-900 w-full"
+                      />
+                      <div className="flex justify-start items-center space-x-2">
+                        <button
+                          type="submit"
+                          className="px-3 py-2 text-sm text-gray-50 bg-indigo-500 rounded"
+                        >
+                          Add Task
+                        </button>
+                        <button
+                          onClick={() => setTaskForm(!taskForm)}
+                          className="px-3 py-2 text-sm text-gray-900 bg-red-500 rounded"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </form>
+                  ) : (
+                    <button
+                      onClick={() => setTaskForm(!taskForm)}
+                      className="w-full flex justify-start items-center p-1 rounded-sm hover:bg-gunmetal-100 mt-2"
+                    >
+                      <PlusIcon className="edit-task w-5 h-5 text-gunmetal-300" />
+                      <span className="text-sm text-gunmetal-300">
+                        Add a task
+                      </span>
+                    </button>
+                  )}
                 </div>
               )}
             </Droppable>
@@ -45,4 +85,4 @@ Column.propTypes = {
   column: PropTypes.object.isRequired,
 };
 
-export default Column;
+export default connect(null, { addTask })(Column);

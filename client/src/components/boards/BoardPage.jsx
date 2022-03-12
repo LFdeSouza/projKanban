@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import ColumnMemo from "./ColumnMemo";
-import initialData from "./initialData";
+import { connect } from "react-redux";
+import { moveColumns, moveTasks } from "../../redux/actions/board";
 
-const Board = () => {
-  const [state, setState] = useState(initialData);
-
+const Board = ({ state, moveColumns, moveTasks }) => {
   const onDragEnd = (result) => {
     const { destination, source, draggableId, type } = result;
 
@@ -23,51 +22,17 @@ const Board = () => {
 
     // Moving columns
     if (type === "column") {
-      const newColumnOrder = [...state.columnOrder];
-      newColumnOrder.splice(source.index, 1);
-      newColumnOrder.splice(destination.index, 0, draggableId);
-
-      setState({ ...state, columnOrder: newColumnOrder });
+      return moveColumns(source.index, destination.index, draggableId);
     }
 
-    //Moving tasks
-    const startColumn = state.columns[source.droppableId];
-    const finishColumn = state.columns[destination.droppableId];
-
-    // Moving from the same columns
-    if (startColumn === finishColumn) {
-      const newTaskIds = [...startColumn.taskIds];
-      newTaskIds.splice(source.index, 1);
-
-      newTaskIds.splice(destination.index, 0, draggableId);
-
-      const newColumn = { ...startColumn, taskIds: newTaskIds };
-      setState({
-        ...state,
-        columns: { ...state.columns, [newColumn.id]: newColumn },
-      });
-    }
-
-    //Moving from different columns
-    else if (startColumn !== finishColumn) {
-      const startTaskIds = [...startColumn.taskIds];
-      startTaskIds.splice(source.index, 1);
-      const newStart = { ...startColumn, taskIds: startTaskIds };
-
-      const finishTaskIds = [...finishColumn.taskIds];
-      finishTaskIds.splice(destination.index, 0, draggableId);
-      const newFinish = { ...finishColumn, taskIds: finishTaskIds };
-
-      setState({
-        ...state,
-        columns: {
-          ...state.columns,
-          [newStart.id]: newStart,
-          [newFinish.id]: newFinish,
-        },
-      });
-    }
-    console.log(state);
+    // //Moving tasks
+    return moveTasks(
+      source.droppableId,
+      destination.droppableId,
+      source.index,
+      destination.index,
+      draggableId
+    );
   };
 
   return (
@@ -82,7 +47,6 @@ const Board = () => {
             <div className="mt-14 p-10 flex overflow-auto">
               {state.columnOrder.map((columnId, index) => {
                 const column = state.columns[columnId];
-
                 return (
                   <ColumnMemo
                     key={column.id}
@@ -101,4 +65,7 @@ const Board = () => {
   );
 };
 
-export default Board;
+const mapStateToProps = (store) => ({
+  state: store.boardReducer,
+});
+export default connect(mapStateToProps, { moveColumns, moveTasks })(Board);

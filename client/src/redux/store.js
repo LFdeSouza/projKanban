@@ -1,12 +1,13 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
-import { boardReducer } from "./reducers/boardReducer";
+import board from "./reducers/board";
+import modal from "./reducers/modal";
 
 const middleware = [thunk];
 
 const store = createStore(
-  combineReducers({ boardReducer }),
+  combineReducers({ board, modal }),
   {},
   composeWithDevTools(applyMiddleware(...middleware))
 );

@@ -3,17 +3,20 @@ import { Droppable, Draggable } from "react-beautiful-dnd";
 import PropTypes from "prop-types";
 import { PlusIcon } from "@heroicons/react/solid";
 import TaskMemo from "./TaskMemo";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addTask } from "../../redux/actions/board";
 
-const Column = ({ column, tasks, index, addTask }) => {
+const Column = ({ column, tasks, index }) => {
   const [taskForm, setTaskForm] = useState(false);
   const [newTask, setNewTask] = useState("");
+  const dispatch = useDispatch();
 
   const onSubmit = (e) => {
     e.preventDefault();
-    addTask(newTask, column.id);
+    if (newTask === "") return;
+    dispatch(addTask(newTask, column.id));
     setNewTask("");
+    setTaskForm(false);
   };
 
   return (
@@ -30,7 +33,7 @@ const Column = ({ column, tasks, index, addTask }) => {
             <Droppable droppableId={column.id}>
               {(provided) => (
                 <div
-                  className="max-h-96 p-1 overflow-auto"
+                  className="max-h-[48rem] p-1 overflow-auto"
                   ref={provided.innerRef}
                   {...provided.droppableProps}
                 >
@@ -43,7 +46,7 @@ const Column = ({ column, tasks, index, addTask }) => {
                         placeholder="Enter a title for the new task..."
                         onChange={(e) => setNewTask(e.target.value)}
                         value={newTask}
-                        className="rounded-sm shadow-md bg-gray-100 text-sm p-3 text-gray-900 w-full"
+                        className="rounded-sm shadow-md bg-gray-100 text-sm p-2 text-gray-900 w-full"
                       />
                       <div className="flex justify-start items-center space-x-2">
                         <button
@@ -83,6 +86,8 @@ const Column = ({ column, tasks, index, addTask }) => {
 
 Column.propTypes = {
   column: PropTypes.object.isRequired,
+  tasks: PropTypes.array.isRequired,
+  index: PropTypes.number.isRequired,
 };
 
-export default connect(null, { addTask })(Column);
+export default Column;

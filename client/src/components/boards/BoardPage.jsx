@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import ColumnMemo from "./ColumnMemo";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { moveColumns, moveTasks } from "../../redux/actions/board";
 
-const Board = ({ state, moveColumns, moveTasks }) => {
+const Board = () => {
+  const dispatch = useDispatch();
+  const state = useSelector((state) => state.board);
+
   const onDragEnd = (result) => {
     const { destination, source, draggableId, type } = result;
 
@@ -22,16 +25,20 @@ const Board = ({ state, moveColumns, moveTasks }) => {
 
     // Moving columns
     if (type === "column") {
-      return moveColumns(source.index, destination.index, draggableId);
+      return dispatch(
+        moveColumns(source.index, destination.index, draggableId)
+      );
     }
 
     // //Moving tasks
-    return moveTasks(
-      source.droppableId,
-      destination.droppableId,
-      source.index,
-      destination.index,
-      draggableId
+    return dispatch(
+      moveTasks(
+        source.droppableId,
+        destination.droppableId,
+        source.index,
+        destination.index,
+        draggableId
+      )
     );
   };
 
@@ -65,7 +72,4 @@ const Board = ({ state, moveColumns, moveTasks }) => {
   );
 };
 
-const mapStateToProps = (store) => ({
-  state: store.boardReducer,
-});
-export default connect(mapStateToProps, { moveColumns, moveTasks })(Board);
+export default Board;

@@ -1,12 +1,13 @@
 import { constants as C } from "../actions/constants";
 import { produce } from "immer";
 
+// Dummy data for testing
 const initialState = {
   tasks: {
-    task1: { id: "task1", title: "Task 1" },
-    task2: { id: "task2", title: "Task 2" },
-    task3: { id: "task3", title: "Task 3" },
-    task4: { id: "task4", title: "Task 4" },
+    task1: { id: "task1", title: "Task 1", description: "", label: "" },
+    task2: { id: "task2", title: "Task 2", description: "", label: "" },
+    task3: { id: "task3", title: "Task 3", description: "", label: "" },
+    task4: { id: "task4", title: "Task 4", description: "", label: "" },
   },
   columns: {
     "column-1": {
@@ -24,7 +25,7 @@ const initialState = {
   columnOrder: ["column-1", "column-2"],
 };
 
-export const boardReducer = (state = initialState, action) => {
+const board = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
     case C.MOVE_COLUMNS:
@@ -59,3 +60,4 @@ export const boardReducer = (state = initialState, action) => {
       return state;
   }
 };
+export default board;

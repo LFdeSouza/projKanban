@@ -1,4 +1,5 @@
 import { constants as C } from "./constants";
+import { v4 as uuidv4 } from "uuid";
 
 export const moveColumns = (colStart, colEnd, colId) => (dispatch) => {
   dispatch({
@@ -26,6 +27,6 @@ export const addTask = (title, columnId) => (dispatch) => {
   console.log(title, columnId);
   dispatch({
     type: C.ADD_TASK,
-    payload: { title, columnId, id: Math.random().toString() },
+    payload: { title, columnId, id: uuidv4() },
   });
 };

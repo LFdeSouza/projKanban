@@ -19,14 +19,14 @@ const Navbar = () => {
             </span>
             <ul
               id="main-menu"
-              className="md:flex -z-10 md:z-auto px-3 lg:px-10 md:space-x-1 md:static absolute left-0 w-full py-5 md:py-0 bg-gunmetal-300 md:bg-transparent transition-top duration-300"
+              className="md:flex -z-10 md:z-10 px-3 lg:px-10 md:space-x-1 md:static absolute left-0 w-full py-5 md:py-0 bg-gunmetal-300 md:bg-transparent transition-top duration-300"
             >
               <li className="my-3 md:my-0 mx-3 md:mx-3">
                 <Link
-                  to="/"
+                  to="/board"
                   className="text-gray-100 text-lg hover:underline hover:text-gunmetal-400 md:hover:text-gunmetal-200 duration-200"
                 >
-                  Boards
+                  Board
                 </Link>
               </li>
               <li className="my-3 md:my-0 mx-3">

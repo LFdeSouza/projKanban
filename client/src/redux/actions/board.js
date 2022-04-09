@@ -24,9 +24,15 @@ export const moveTasks =
   };
 
 export const addTask = (title, columnId) => (dispatch) => {
-  console.log(title, columnId);
   dispatch({
     type: C.ADD_TASK,
     payload: { title, columnId, id: uuidv4() },
+  });
+};
+
+export const editTask = (taskId, field, value) => (dispatch) => {
+  dispatch({
+    type: C.EDIT_TASK,
+    payload: { taskId, field, value },
   });
 };

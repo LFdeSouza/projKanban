@@ -4,10 +4,20 @@ import { produce } from "immer";
 // Dummy data for testing
 const initialState = {
   tasks: {
-    task1: { id: "task1", title: "Task 1", description: "", label: "" },
-    task2: { id: "task2", title: "Task 2", description: "", label: "" },
-    task3: { id: "task3", title: "Task 3", description: "", label: "" },
-    task4: { id: "task4", title: "Task 4", description: "", label: "" },
+    task1: {
+      id: "task1",
+      title: "Task 1",
+      description: "",
+      priority: "highest",
+    },
+    task2: {
+      id: "task2",
+      title: "Task 2",
+      description: "",
+      priority: "lowest",
+    },
+    task3: { id: "task3", title: "Task 3", description: "", priority: "low" },
+    task4: { id: "task4", title: "Task 4", description: "" },
   },
   columns: {
     "column-1": {
@@ -55,6 +65,10 @@ const board = (state = initialState, action) => {
       return produce(state, (draft) => {
         draft.tasks[payload.id] = { title: payload.title, id: payload.id };
         draft.columns[payload.columnId].taskIds.push(payload.id);
+      });
+    case C.EDIT_TASK:
+      return produce(state, (draft) => {
+        draft.tasks[payload.taskId][payload.field] = payload.value;
       });
     default:
       return state;

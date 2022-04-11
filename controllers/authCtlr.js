@@ -16,7 +16,9 @@ export const registerUser = async (req, res) => {
       httpOnly: true,
       maxAge: 3 * 24 * 60 * 60 * 1000,
     });
-    res.status(201).json({ user });
+    res.status(201).json({
+      user: { name: user.name, email: user.email, avatar: user.avatar },
+    });
   } catch (err) {
     const errors = handleErrors(err);
     res.status(400).json({ errors });
@@ -31,7 +33,11 @@ export const loginUser = async (req, res) => {
       httpOnly: true,
       maxAge: 3 * 24 * 60 * 60 * 1000,
     });
-    res.status(200).json({ user });
+    res
+      .status(200)
+      .json({
+        user: { name: user.name, email: user.email, avatar: user.avatar },
+      });
   } catch (err) {
     const errors = handleErrors(err);
     res.status(400).json({ errors });

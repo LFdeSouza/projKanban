@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 //components
 import Landing from "./components/landing/Landing";
 import Login from "./components/userAuth/Login";
+import SignUp from "./components/userAuth/SignUp";
 import Navbar from "./components/navbar/Navbar";
 import Board from "./components/boards/BoardPage";
 import TaskForm from "./components/forms/TaskForm";
@@ -22,7 +23,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/board" element={<Board />} />
+        <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
       </Routes>
       {isTaskFormOpen && <TaskForm />}
     </BrowserRouter>

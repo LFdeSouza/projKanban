@@ -12,9 +12,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 //Routes
-app.get("/", (req, res) => res.send("Hello, world"));
-app.use("/users", userRouter);
-app.use("/boards", boardRouter);
+app.use("/api/users", userRouter);
+app.use("/api/boards", boardRouter);
 
 //Run server
 import("./models/db.js");

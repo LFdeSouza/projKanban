@@ -1,8 +1,11 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { BadgeCheckIcon, MenuIcon } from "@heroicons/react/outline";
 
 const Navbar = () => {
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
   const toggleMenu = (e) => {
     const menu = document.querySelector("#main-menu");
     menu.classList.toggle("translate-y-[236px]");
@@ -40,7 +43,7 @@ const Navbar = () => {
               <hr className="hr md:hidden" />
               <li className="my-3 md:my-0 mx-3 md:hidden">
                 <Link
-                  to="/"
+                  to="/login"
                   className="text-gray-100 text-lg hover:underline hover:text-gunmetal-400 duration-200"
                 >
                   Login
@@ -60,15 +63,15 @@ const Navbar = () => {
             <ul className="hidden md:flex px-3 lg:px-10 md:space-x-3 md:static absolute top-[56px] left-0 w-full py-5 md:py-0 bg-gunmetal-300 md:bg-transparent transition-all duration-300">
               <li className="my-3 md:my-0 mx-3 ">
                 <Link
-                  to="/"
+                  to="/signup"
                   className="text-gray-100 text-lg hover:underline hover:text-gunmetal-400 md:hover:text-gunmetal-200 duration-200"
                 >
-                  Picture
+                  SignUp
                 </Link>
               </li>
               <li className="my-3 md:my-0 mx-3 ">
                 <Link
-                  to="/"
+                  to="/login"
                   className="text-gray-100 text-lg hover:underline hover:text-gunmetal-400 md:hover:text-gunmetal-200 duration-200"
                 >
                   Login

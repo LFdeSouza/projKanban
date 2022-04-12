@@ -16,6 +16,8 @@ const auth = (state = initialState, action) => {
       return { ...state, isAuthenticated: true, loading: false, user: null };
     case C.LOGIN_USER:
       return { ...state, isAuthenticated: true, loading: false, user: payload };
+    case C.LOGOUT_USER:
+      return { ...state, isAuthenticated: false, loading: false, user: null };
     default:
       return state;
   }

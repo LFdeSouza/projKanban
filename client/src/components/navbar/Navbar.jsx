@@ -1,9 +1,11 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { BadgeCheckIcon, MenuIcon } from "@heroicons/react/outline";
+import { logout } from "../../redux/actions/auth";
 
 const Navbar = () => {
+  const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const user = useSelector((state) => state.auth.user);
 
@@ -11,8 +13,6 @@ const Navbar = () => {
     const menu = document.querySelector("#main-menu");
     menu.classList.toggle("translate-y-[236px]");
   };
-
-  const logout = () => {};
 
   const authMenu = isAuthenticated && (
     <ul className="hidden md:flex items-end px-3 lg:px-10 md:space-x-3 md:static absolute top-[56px] left-0 w-full py-5 md:py-0 bg-gunmetal-300 md:bg-transparent transition-all duration-300">
@@ -23,7 +23,7 @@ const Navbar = () => {
       <li className="my-3 md:my-0 mx-3 ">
         <button
           className="text-gray-100 text-lg hover:underline hover:text-gunmetal-400 md:hover:text-gunmetal-200 duration-200"
-          onClick={logout}
+          onClick={() => dispatch(logout())}
         >
           Logout
         </button>
@@ -35,18 +35,18 @@ const Navbar = () => {
     <ul className="hidden md:flex px-3 lg:px-10 md:space-x-3 md:static absolute top-[56px] left-0 w-full py-5 md:py-0 bg-gunmetal-300 md:bg-transparent transition-all duration-300">
       <li className="my-3 md:my-0 mx-3 ">
         <Link
-          to="/signup"
-          className="text-gray-100 text-lg hover:underline hover:text-gunmetal-400 md:hover:text-gunmetal-200 duration-200"
-        >
-          SignUp
-        </Link>
-      </li>
-      <li className="my-3 md:my-0 mx-3 ">
-        <Link
           to="/login"
           className="text-gray-100 text-lg hover:underline hover:text-gunmetal-400 md:hover:text-gunmetal-200 duration-200"
         >
           Login
+        </Link>
+      </li>
+      <li className="my-3 md:my-0 mx-3 ">
+        <Link
+          to="/signup"
+          className="text-gray-100 text-lg hover:underline hover:text-gunmetal-400 md:hover:text-gunmetal-200 duration-200"
+        >
+          SignUp
         </Link>
       </li>
     </ul>
@@ -74,7 +74,7 @@ const Navbar = () => {
               </li>
               <li className="my-3 md:my-0 mx-3">
                 <Link
-                  to="/"
+                  to="/dashboard"
                   className="text-gray-100 text-lg hover:underline hover:text-gunmetal-400 md:hover:text-gunmetal-200 duration-200"
                 >
                   Boards

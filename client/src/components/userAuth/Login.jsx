@@ -24,7 +24,7 @@ const Login = () => {
 
   // Redirect to landing page if authenticated
   if (isAuthenticated) {
-    return <Navigate to="/landing" />;
+    return <Navigate to="/dashboard" />;
   }
 
   return (

@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
 import { UserIcon, KeyIcon, MailIcon } from "@heroicons/react/solid";
 import { registerUser } from "../../redux/actions/auth";
 
 const SignUp = () => {
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,6 +24,10 @@ const SignUp = () => {
     clearFields();
   };
 
+  // Redirect to landing page if authenticated
+  if (isAuthenticated) {
+    return <Navigate to="/landing" />;
+  }
   return (
     <section className="absolute inset-0 bg-gunmetal-300 -z-10">
       <form

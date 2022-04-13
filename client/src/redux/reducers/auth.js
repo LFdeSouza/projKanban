@@ -1,7 +1,7 @@
 import { constants as C } from "../actions/constants";
+import { produce } from "immer";
 
 const initialState = {
-  token: null,
   isAuthenticated: false,
   loading: true,
   user: null,
@@ -11,13 +11,30 @@ const auth = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
     case C.REGISTER_USER_SUCCESS:
-      return { ...state, isAuthenticated: true, loading: false, user: payload };
-    case C.REGISTER_USER_FAIL:
-      return { ...state, isAuthenticated: true, loading: false, user: null };
     case C.LOGIN_USER:
-      return { ...state, isAuthenticated: true, loading: false, user: payload };
+      return produce(state, (draft) => {
+        draft.isAuthenticated = true;
+        draft.loading = false;
+        draft.user = payload;
+      });
+    case C.REGISTER_USER_FAIL:
     case C.LOGOUT_USER:
-      return { ...state, isAuthenticated: false, loading: false, user: null };
+      return produce(state, (draft) => {
+        draft.isAuthenticated = false;
+        draft.loading = false;
+        draft.user = null;
+      });
+    case C.GET_BOARDS:
+      return produce(state, (draft) => {
+        if (payload) {
+          draft.user.boards = payload;
+        }
+        draft.user.boards = [];
+      });
+    case C.CREATE_BOARD:
+      return produce(state, (draft) => {
+        draft.user.boards.push(payload);
+      });
     default:
       return state;
   }

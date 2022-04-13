@@ -1,6 +1,15 @@
 import { constants as C } from "./constants";
 import axios from "axios";
 
+export const loadUser = () => async (dispatch) => {
+  try {
+    const res = await axios.get("/api/users");
+    dispatch({ type: C.LOGIN_USER, payload: res.data.user });
+  } catch (err) {
+    console.log(err.response.data.errors);
+  }
+};
+
 export const registerUser = (name, email, password) => async (dispatch) => {
   const config = { headers: { "Content-Type": "application/json" } };
   const body = JSON.stringify({ name, email, password });
@@ -28,5 +37,27 @@ export const loginUser = (email, password) => async (dispatch) => {
 };
 
 export const logout = () => async (dispatch) => {
-  dispatch(C.LOGOUT_USER);
+  try {
+    await axios.post("/api/users/logout");
+    dispatch({ type: C.LOGOUT_USER });
+  } catch (err) {
+    console.log(err.response.data.errors);
+  }
+};
+
+export const createBoard = (title) => async (dispatch) => {
+  const config = { headers: { "Content-Type": "application/json" } };
+  const body = JSON.stringify({ title });
+
+  try {
+    const res = await axios.post("/api/boards", body, config);
+    dispatch({ type: C.CREATE_BOARD, payload: title });
+  } catch (err) {
+    console.log(err.response.data.errors);
+  }
+};
+
+export const getBoards = () => async (dispatch) => {
+  const res = await axios.get("/api/boards");
+  dispatch({ type: C.GET_BOARDS, payload: res.data.boards });
 };

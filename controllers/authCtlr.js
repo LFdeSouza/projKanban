@@ -2,6 +2,16 @@ import gravatar from "gravatar";
 import { User } from "../models/User.js";
 import jsonwebtoken from "jsonwebtoken";
 
+export const loadUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.user).select("-password");
+    res.status(200).json({ user });
+  } catch (err) {
+    const errors = handleErrors(err);
+    res.status(400).json({ errors });
+  }
+};
+
 export const registerUser = async (req, res) => {
   try {
     const user = await User.create({
@@ -33,11 +43,14 @@ export const loginUser = async (req, res) => {
       httpOnly: true,
       maxAge: 3 * 24 * 60 * 60 * 1000,
     });
-    res
-      .status(200)
-      .json({
-        user: { name: user.name, email: user.email, avatar: user.avatar },
-      });
+    res.status(200).json({
+      user: {
+        name: user.name,
+        email: user.email,
+        avatar: user.avatar,
+        boards: user.boards,
+      },
+    });
   } catch (err) {
     const errors = handleErrors(err);
     res.status(400).json({ errors });
@@ -47,6 +60,7 @@ export const loginUser = async (req, res) => {
 export const logoutUser = (req, res) => {
   //remove jwt token
   res.cookie("jwt", "", { maxAge: 1 });
+  res.status(200).json({ msg: "token removed" });
 };
 
 export const deleteUser = async (req, res) => {

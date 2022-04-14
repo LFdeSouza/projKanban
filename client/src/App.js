@@ -8,17 +8,18 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { loadUser } from "./redux/actions/auth";
 //components
+import Root from "./components/layout/Root";
 import Dashboard from "./components/dashboard/dashboard";
 import Login from "./components/userAuth/Login";
 import SignUp from "./components/userAuth/SignUp";
-import Navbar from "./components/navbar/Navbar";
+import Navbar from "./components/layout/Navbar";
 import Board from "./components/boards/BoardPage";
 import TaskForm from "./components/forms/TaskForm";
 import PrivateRoute from "./components/userAuth/PrivateRoute";
 
 function App() {
-  const isTaskFormOpen = useSelector((state) => state.modal.editTaskModal);
   const dispatch = useDispatch();
+  const isTaskFormOpen = useSelector((state) => state.modal.editTaskModal);
 
   useEffect(() => {
     dispatch(loadUser());
@@ -28,13 +29,13 @@ function App() {
     <BrowserRouter>
       <Navbar />
       <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/board" element={<Board />} />
+        <Route path="/" element={<Root />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route element={<PrivateRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/board" element={<Board />} />
         </Route>
       </Routes>
       {isTaskFormOpen && <TaskForm />}

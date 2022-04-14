@@ -16,6 +16,7 @@ const auth = (state = initialState, action) => {
         draft.isAuthenticated = true;
         draft.loading = false;
         draft.user = payload;
+        draft.user.boards = [];
       });
     case C.REGISTER_USER_FAIL:
     case C.LOGOUT_USER:
@@ -24,12 +25,11 @@ const auth = (state = initialState, action) => {
         draft.loading = false;
         draft.user = null;
       });
-    case C.GET_BOARDS:
+    case C.LOAD_BOARDS:
       return produce(state, (draft) => {
         if (payload) {
           draft.user.boards = payload;
         }
-        draft.user.boards = [];
       });
     case C.CREATE_BOARD:
       return produce(state, (draft) => {

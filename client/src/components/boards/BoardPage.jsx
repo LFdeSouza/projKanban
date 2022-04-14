@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import ColumnMemo from "./ColumnMemo";
 import { useSelector, useDispatch } from "react-redux";
@@ -47,7 +47,7 @@ const Board = () => {
       <Droppable droppableId="columns" direction="horizontal" type="column">
         {(provided) => (
           <section
-            className="absolute inset-0 bg-gunmetal-200 -z-20"
+            className="absolute inset-0 bg-gunmetal-300 -z-20"
             {...provided.droppableProps}
             ref={provided.innerRef}
           >

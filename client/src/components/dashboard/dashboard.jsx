@@ -1,10 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { createBoard, loadBoards } from "../../redux/actions/auth";
+import BoardForm from "../forms/BoardForm";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const boards = useSelector((state) => state.auth.user.boards);
+  const [isFormOpen, setIsFormOpen] = useState(false);
 
   useEffect(() => {
     dispatch(loadBoards());
@@ -18,22 +22,26 @@ const Dashboard = () => {
           {boards.map((board, index) => {
             return (
               <li
-                className="h-24 w-44 bg-indigo-700 rounded hover:bg-indigo-600 cursor-pointer shadow-lg"
+                className="h-24 w-44 p-4 font-semibold text-white bg-indigo-700 rounded hover:bg-indigo-600 cursor-pointer shadow-lg"
                 key={index}
+                id={board._id}
+                onClick={(e) => navigate(`/board/${e.target.id}`)}
               >
-                <p className="p-4 font-semibold text-white">{board.title} </p>
+                {board.title}
               </li>
             );
           })}
           <li
-            className="h-24 w-44 bg-indigo-700 rounded hover:bg-indigo-600 cursor-pointer shadow-lg"
-            onClick={() => dispatch(createBoard("newBoard"))}
+            className="h-24 w-44 bg-indigo-700 rounded p-4 text-md font-semibold text-white hover:bg-indigo-600 cursor-pointer shadow-lg"
+            onClick={() => {
+              setIsFormOpen(!isFormOpen);
+              console.log(isFormOpen);
+            }}
           >
-            <p className="p-4 text-md font-semibold text-white">
-              + Create new board
-            </p>
+            + Create new board
           </li>
         </ul>
+        {isFormOpen ? <BoardForm closeForm={setIsFormOpen} /> : null}
       </div>
     </section>
   );

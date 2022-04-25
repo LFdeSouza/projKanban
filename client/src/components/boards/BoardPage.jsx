@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import ColumnMemo from "./ColumnMemo";
 import { useSelector, useDispatch } from "react-redux";
 import { moveColumns, moveTasks } from "../../redux/actions/board";
 
 const Board = () => {
+  const { boardId } = useParams();
   const dispatch = useDispatch();
   const state = useSelector((state) => state.board);
+
+  useEffect(() => console.log(boardId), []);
 
   const onDragEnd = (result) => {
     const { destination, source, draggableId, type } = result;

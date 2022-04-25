@@ -35,7 +35,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route element={<PrivateRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/board" element={<Board />} />
+          <Route path="/board/:boardId" element={<Board />} />
         </Route>
       </Routes>
       {isTaskFormOpen && <TaskForm />}

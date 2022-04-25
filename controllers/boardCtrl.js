@@ -1,4 +1,5 @@
-import { Board, columnSchema, taskSchema } from "../models/Board.js";
+import { Board } from "../models/Board.js";
+import { default as mongoose } from "mongoose";
 
 export const createBoard = async (req, res) => {
   try {

@@ -14,13 +14,13 @@ const Column = ({ column, tasks, index }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     if (newTask === "") return;
-    dispatch(addTask(newTask, column.id));
+    dispatch(addTask(newTask, column._id));
     setNewTask("");
     setTaskForm(false);
   };
 
   return (
-    <Draggable draggableId={column.id} index={index}>
+    <Draggable draggableId={column._id} index={index}>
       {(provided) => (
         <div
           className="bg-gunmetal-50 p-1 mr-5 rounded-md shadow-lg h-full "
@@ -30,7 +30,7 @@ const Column = ({ column, tasks, index }) => {
         >
           <div className="w-[15rem]">
             <h1 className="p-1 mb-2 font-semibold">{column.title}</h1>
-            <Droppable droppableId={column.id}>
+            <Droppable droppableId={column._id}>
               {(provided) => (
                 <div
                   className="max-h-[48rem] p-1 overflow-auto"

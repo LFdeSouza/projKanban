@@ -21,10 +21,10 @@ const Task = ({ task, index }) => {
       : null;
 
   return (
-    <Draggable draggableId={task.id} index={index}>
+    <Draggable draggableId={task._id} index={index}>
       {(provided, snapshot) => (
         <div
-          onClick={() => dispatch(openEditTaskForm(task.id))}
+          onClick={() => dispatch(openEditTaskForm(task._id))}
           className=" task p-2 mb-2 bg-gray-50 hover:bg-gunmetal-10 rounded shadow-sm"
           {...provided.draggableProps}
           {...provided.dragHandleProps}

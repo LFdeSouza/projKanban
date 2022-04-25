@@ -26,7 +26,7 @@ const SignUp = () => {
 
   // Redirect to landing page if authenticated
   if (isAuthenticated) {
-    return <Navigate to="/landing" />;
+    return <Navigate to="/dashboard" />;
   }
   return (
     <section className="absolute inset-0 bg-gunmetal-300 -z-10">
@@ -37,36 +37,36 @@ const SignUp = () => {
         <p className="text-4xl mb-4 font-semibold text-white ">Sign up</p>
         <div className="relative w-full rounded shadow-lg">
           <input
-            className="p-1 pl-8 w-full rounded "
+            className="p-2 pl-8 w-full rounded "
             type="text"
             placeholder="Enter your email"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
-          <UserIcon className="w-5 h-5 absolute top-1.5 left-2  text-gunmetal-400" />
+          <UserIcon className="w-5 h-5 absolute top-2.5 left-2  text-gunmetal-400" />
         </div>
         <div className="relative w-full rounded shadow-lg">
           <input
-            className="p-1 pl-8 w-full rounded "
+            className="p-2 pl-8 w-full rounded "
             type="text"
             placeholder="Enter a valid email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <MailIcon className="w-5 h-5 absolute top-1.5 left-2 text-gunmetal-400" />
+          <MailIcon className="w-5 h-5 absolute top-2.5 left-2 text-gunmetal-400" />
         </div>
         <div className="relative w-full rounded shadow-lg">
           <input
-            className="p-1 pl-8 w-full rounded "
+            className="p-2 pl-8 w-full rounded "
             type="password"
             placeholder="Please enter a password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <KeyIcon className="w-5 h-5 absolute top-1.5 left-2 text-gunmetal-400" />
+          <KeyIcon className="w-5 h-5 absolute top-2.5 left-2 text-gunmetal-400" />
         </div>
         <button
-          className="p-1 w-full rounded bg-indigo-600 text-gray-50 "
+          className="p-2 w-full rounded bg-indigo-600 text-gray-50 "
           type="submit"
         >
           Sign up

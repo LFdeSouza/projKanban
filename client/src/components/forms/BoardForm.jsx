@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createBoard } from "../../redux/actions/auth";
+import { XIcon } from "@heroicons/react/solid";
 
 const BoardForm = ({ closeForm }) => {
   const dispatch = useDispatch();
@@ -12,16 +13,16 @@ const BoardForm = ({ closeForm }) => {
   };
 
   return (
-    <section className="fixed inset-0 bg-black/50">
+    <section className="fixed inset-0 bg-black/10">
       <div className=" h-screen flex flex-row items-center justify-center">
         <form
-          className="p-2 flex flex-col border-2 space-y-4 border-black rounded bg-gunmetal-50 "
+          className="fixed top-[20rem] p-4 flex flex-col space-y-4 rounded bg-gunmetal-50 shadow-lg"
           method="dialog"
         >
           <div className="mt-2">
             <label htmlFor="board-name">Board name</label>
             <input
-              className="p-1 mx-2 border-2 border-gray-300 rounded"
+              className="p-2 mx-2 rounded"
               type="text"
               name="board-name"
               placeholder="Enter board name"
@@ -29,7 +30,7 @@ const BoardForm = ({ closeForm }) => {
               onChange={(e) => setTitle(e.target.value)}
             />
           </div>
-          <div className="flex justify-around">
+          <div className="flex items-center gap-4">
             <button
               className="py-2 px-6 rounded bg-indigo-600 text-white"
               type="submit"
@@ -37,11 +38,8 @@ const BoardForm = ({ closeForm }) => {
             >
               Save
             </button>
-            <button
-              className="py-2 px-6 rounded bg-indigo-600 text-white"
-              onClick={() => closeForm()}
-            >
-              Cancel
+            <button onClick={() => closeForm()}>
+              <XIcon className="w-7 h-7 text-gunmetal-300" />
             </button>
           </div>
         </form>

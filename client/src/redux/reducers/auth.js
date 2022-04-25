@@ -3,7 +3,7 @@ import { produce } from "immer";
 
 const initialState = {
   isAuthenticated: false,
-  loading: true,
+  isLoading: true,
   user: null,
 };
 
@@ -14,7 +14,7 @@ const auth = (state = initialState, action) => {
     case C.LOGIN_USER:
       return produce(state, (draft) => {
         draft.isAuthenticated = true;
-        draft.loading = false;
+        draft.isLoading = false;
         draft.user = payload;
         draft.user.boards = [];
       });
@@ -22,7 +22,7 @@ const auth = (state = initialState, action) => {
     case C.LOGOUT_USER:
       return produce(state, (draft) => {
         draft.isAuthenticated = false;
-        draft.loading = false;
+        draft.isLoading = false;
         draft.user = null;
       });
     case C.LOAD_BOARDS:

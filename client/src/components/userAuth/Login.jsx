@@ -38,26 +38,26 @@ const Login = () => {
         </p>
         <div className="relative w-full rounded shadow-lg">
           <input
-            className="p-1 pl-8 w-full rounded "
+            className="p-2 pl-8 w-full rounded "
             type="text"
             placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
-          <UserIcon className="w-5 h-5 absolute top-1.5 left-2  text-gunmetal-400" />
+          <UserIcon className="w-5 h-5 absolute top-2.5 left-2  text-gunmetal-400" />
         </div>
         <div className="relative w-full rounded shadow-lg">
           <input
-            className="p-1 pl-8 w-full rounded "
+            className="p-2 pl-8 w-full rounded "
             type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <KeyIcon className="w-5 h-5 absolute top-1.5 left-2 text-gunmetal-400" />
+          <KeyIcon className="w-5 h-5 absolute top-2.5 left-2 text-gunmetal-400" />
         </div>
         <button
-          className="p-1 w-full rounded bg-indigo-600 text-gray-50 "
+          className="p-2 w-full rounded bg-indigo-600 text-gray-50 "
           type="submit"
         >
           Log in

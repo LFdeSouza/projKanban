@@ -10,6 +10,19 @@ export const loadBoard = (id) => async (dispatch) => {
     console.log(err.response.data.errors);
   }
 };
+
+export const addColumn = (id, title) => async (dispatch) => {
+  try {
+    const config = { headers: { "Content-Type": "application/json" } };
+    const body = JSON.stringify({ title });
+
+    const res = await axios.post(`/api/boards/columns/${id}`, body, config);
+    dispatch({ type: C.ADD_COLUMN, payload: res.data.column.title });
+  } catch (err) {
+    console.log(err.response.data.errors);
+  }
+};
+
 export const moveColumns = (colStart, colEnd, colId) => (dispatch) => {
   dispatch({
     type: C.MOVE_COLUMNS,

@@ -15,4 +15,5 @@ export const constants = {
   LOGOUT_USER: " LOGOUT_USER",
   CREATE_BOARD: " CREATE_BOARD",
   LOAD_BOARDS: " LOAD_BOARDS",
+  LOAD_BOARD: " LOAD_BOARD",
 };

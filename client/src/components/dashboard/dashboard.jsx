@@ -33,10 +33,7 @@ const Dashboard = () => {
           })}
           <li
             className="h-24 w-44 bg-indigo-700 rounded p-4 text-md font-semibold text-white hover:bg-indigo-600 cursor-pointer shadow-lg"
-            onClick={() => {
-              setIsFormOpen(!isFormOpen);
-              console.log(isFormOpen);
-            }}
+            onClick={() => setIsFormOpen(!isFormOpen)}
           >
             + Create new board
           </li>

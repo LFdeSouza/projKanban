@@ -58,7 +58,10 @@ export const createBoard = (title) => async (dispatch) => {
 };
 
 export const loadBoards = () => async (dispatch) => {
-  const res = await axios.get("/api/boards");
-  console.log("boards:", res.data.boards);
-  dispatch({ type: C.LOAD_BOARDS, payload: res.data.boards });
+  try {
+    const res = await axios.get("/api/boards");
+    dispatch({ type: C.LOAD_BOARDS, payload: res.data.boards });
+  } catch (err) {
+    console.log(err.response.data.errors);
+  }
 };

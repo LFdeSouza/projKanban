@@ -1,6 +1,15 @@
 import { constants as C } from "./constants";
 import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
 
+export const loadBoard = (id) => async (dispatch) => {
+  try {
+    const res = await axios.get(`/api/boards/${id}`);
+    dispatch({ type: C.LOAD_BOARD, payload: res.data.board });
+  } catch (err) {
+    console.log(err.response.data.errors);
+  }
+};
 export const moveColumns = (colStart, colEnd, colId) => (dispatch) => {
   dispatch({
     type: C.MOVE_COLUMNS,

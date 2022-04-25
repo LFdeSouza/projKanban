@@ -38,6 +38,12 @@ const initialState = {
 const board = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
+    case C.LOAD_BOARD:
+      return produce(state, (draft) => {
+        draft.columns = payload.columns;
+        draft.tasks = payload.tasks;
+        draft.columnOrder = payload.columnOrder;
+      });
     case C.MOVE_COLUMNS:
       return produce(state, (draft) => {
         draft.columnOrder.splice(payload.colStart, 1);

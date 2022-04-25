@@ -22,6 +22,7 @@ const boardSchema = new mongoose.Schema({
   title: { type: String, required: [true, "Boards must have a title"] },
   description: { type: String },
   columns: [columnSchema],
+  columnOrder: [],
   tasks: [taskSchema],
   user: {
     type: mongoose.Schema.Types.ObjectId,

@@ -19,9 +19,8 @@ const Board = () => {
   const state = useSelector((state) => state.board);
 
   useEffect(() => {
-    if (!state.id) {
-      dispatch(loadBoard(boardId));
-    }
+    if (state.id === boardId) console.log("true");
+    dispatch(loadBoard(boardId));
   }, [boardId, dispatch]);
 
   const onNewColumn = (e) => {
@@ -48,7 +47,7 @@ const Board = () => {
     // Moving columns
     if (type === "column") {
       return dispatch(
-        moveColumns(source.index, destination.index, draggableId)
+        moveColumns(boardId, source.index, destination.index, draggableId)
       );
     }
 
@@ -70,57 +69,57 @@ const Board = () => {
       <Droppable droppableId="columns" direction="horizontal" type="column">
         {(provided) => (
           <section
-            className="absolute inset-0 bg-gunmetal-300 -z-20"
+            className="absolute inset-0 p-10 flex overflow-auto bg-gunmetal-300 -z-20"
             {...provided.droppableProps}
             ref={provided.innerRef}
           >
-            <div className="mt-14 p-10 flex overflow-auto">
-              {state.columnOrder.map((columnId, index) => {
-                const column = state.columns[columnId];
-                return (
-                  <ColumnMemo
-                    key={column._id}
-                    column={column}
-                    tasks={state.tasks}
-                    boardId={boardId}
-                    index={index}
+            {/* <div className="mt-14 p-10 flex overflow-auto"> */}
+            {state.columnOrder.map((columnId, index) => {
+              const column = state.columns[columnId];
+              return (
+                <ColumnMemo
+                  key={column._id}
+                  column={column}
+                  tasks={state.tasks}
+                  boardId={boardId}
+                  index={index}
+                />
+              );
+            })}
+            {columnForm ? (
+              <div className="flex flex-col flex-shrink-0 max-h-32 w-[15rem] mt-14 p-4 bg-gunmetal-50 rounded shadow-lg  cursor-pointer">
+                <form onSubmit={(e) => onNewColumn(e)}>
+                  <input
+                    className="p-2 pl-3 bg-gray-100 rounded w-full"
+                    type="text"
+                    name="columnTitle"
+                    value={columnTitle}
+                    placeholder="Column title"
+                    onChange={(e) => setColumnTitle(e.target.value)}
                   />
-                );
-              })}
-              {columnForm ? (
-                <div className="flex flex-col flex-shrink-0 max-h-32 w-[15rem] p-4 bg-gunmetal-50 rounded shadow-lg  cursor-pointer">
-                  <form onSubmit={(e) => onNewColumn(e)}>
-                    <input
-                      className="p-2 pl-3 bg-gray-100 rounded w-full"
-                      type="text"
-                      name="columnTitle"
-                      value={columnTitle}
-                      placeholder="Column title"
-                      onChange={(e) => setColumnTitle(e.target.value)}
-                    />
-                    <div className="flex items-center mt-4 gap-2">
-                      <button
-                        className="p-1 px-4 bg-indigo-500 rounded hover:bg-indigo-400 text-white"
-                        type="submit"
-                      >
-                        Add
-                      </button>
-                      <button onClick={() => setColumnForm(!columnForm)}>
-                        <XIcon className="w-7 h-7 text-gunmetal-300" />
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              ) : (
-                <button
-                  className="flex items-center flex-shrink-0 w-[15rem] p-2 mr-5 max-h-10 bg-gunmetal-50  rounded-md shadow-lg  cursor-pointer"
-                  onClick={() => setColumnForm(!columnForm)}
-                >
-                  <PlusIcon className="w-5 h-5 mr-3 text-gunmetal-300" />
-                  <span className="text-gunmetal-300">Add new column</span>
-                </button>
-              )}
-            </div>
+                  <div className="flex items-center mt-4 gap-2">
+                    <button
+                      className="p-1 px-4 bg-indigo-500 rounded hover:bg-indigo-400 text-white"
+                      type="submit"
+                    >
+                      Add
+                    </button>
+                    <button onClick={() => setColumnForm(!columnForm)}>
+                      <XIcon className="w-7 h-7 text-gunmetal-300" />
+                    </button>
+                  </div>
+                </form>
+              </div>
+            ) : (
+              <button
+                className="flex items-center flex-shrink-0 w-[15rem] p-2 mt-14 mr-5 max-h-10 bg-gunmetal-50  rounded-md shadow-lg  cursor-pointer"
+                onClick={() => setColumnForm(!columnForm)}
+              >
+                <PlusIcon className="w-5 h-5 mr-3 text-gunmetal-300" />
+                <span className="text-gunmetal-300">Add new column</span>
+              </button>
+            )}
+            {/* </div> */}
             {provided.placeholder}
           </section>
         )}

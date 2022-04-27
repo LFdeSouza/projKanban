@@ -22,12 +22,21 @@ export const addColumn = (id, title) => async (dispatch) => {
   }
 };
 
-export const moveColumns = (colStart, colEnd, colId) => (dispatch) => {
-  dispatch({
-    type: C.MOVE_COLUMNS,
-    payload: { colStart, colEnd, colId },
-  });
-};
+export const moveColumns =
+  (boardId, indexStart, indexEnd, columnId) => async (dispatch) => {
+    dispatch({
+      type: C.MOVE_COLUMNS,
+      payload: { indexStart, indexEnd, columnId },
+    });
+
+    const config = { headers: { "Content-Type": "application/json" } };
+    const body = JSON.stringify({ boardId, indexStart, indexEnd, columnId });
+    return await axios.put(
+      `/api/boards/column/moveColumn/${boardId}`,
+      body,
+      config
+    );
+  };
 
 export const moveTasks =
   (boardId, colStart, colEnd, taskStart, taskEnd, taskId) =>

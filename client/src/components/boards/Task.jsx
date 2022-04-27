@@ -35,7 +35,7 @@ const Task = ({ task, index }) => {
               <div className={`w-10 h-2 mb-1 rounded-lg ${label}`} />
             )}
             <div className=" flex justify-between cursor-pointer">
-              <p className="text-sm">{task.title}</p>
+              <p className="text-sm break-all ">{task.title}</p>
               <PencilIcon className="edit-task invisible h-5 w-5 text-gunmetal-100 mr-3" />
             </div>
           </div>

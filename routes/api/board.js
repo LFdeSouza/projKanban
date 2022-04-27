@@ -14,6 +14,7 @@ import {
   createTask,
   editTask,
   deleteTask,
+  moveColumn,
 } from "../../controllers/boardCtrl.js";
 
 const boardRouter = express.Router();
@@ -28,6 +29,7 @@ boardRouter.delete("/:id", requireAuth, deleteBoard);
 // Columns
 boardRouter.post("/columns/:id", requireAuth, createColumn);
 boardRouter.put("/columns/:boardId/:columnId", requireAuth, editColumn);
+boardRouter.put("/column/moveColumn/:boardId", requireAuth, moveColumn);
 boardRouter.put(
   "/columns/taskOrderSameColumn/:boardId/:columnId",
   requireAuth,
@@ -38,7 +40,6 @@ boardRouter.put(
   requireAuth,
   moveTaskAnotherColumn
 );
-
 boardRouter.delete("/columns/:boardId/:columnId", requireAuth, deleteColumn);
 
 // Tasks

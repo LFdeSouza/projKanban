@@ -1,7 +1,6 @@
 import { constants as C } from "../actions/constants";
 import { produce } from "immer";
 
-// Dummy data for testing
 const initialState = {
   tasks: {},
   columns: {},
@@ -13,11 +12,13 @@ const board = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
     case C.LOAD_BOARD:
+      state = initialState;
+      console.log(payload);
       return produce(state, (draft) => {
         payload.columns.forEach((column) => {
           draft.columns[column._id] = column;
-          draft.columnOrder.push(column._id);
         });
+        draft.columnOrder = payload.columnOrder;
         payload.tasks.forEach((task) => (draft.tasks[task._id] = task));
         draft.id = payload._id;
       });
@@ -29,8 +30,8 @@ const board = (state = initialState, action) => {
       });
     case C.MOVE_COLUMNS:
       return produce(state, (draft) => {
-        draft.columnOrder.splice(payload.colStart, 1);
-        draft.columnOrder.splice(payload.colEnd, 0, payload.colId);
+        draft.columnOrder.splice(payload.indexStart, 1);
+        draft.columnOrder.splice(payload.indexEnd, 0, payload.columnId);
       });
     case C.MOVE_TASK_TO_SAME_COLUMN:
       return produce(state, (draft) => {

@@ -76,12 +76,11 @@ export const createColumn = async (req, res) => {
 
     // const column = req.body;
     board.columns.push(req.body);
+    board.columnOrder.push(board.columns[board.columns.length - 1]._id);
 
     const newBoard = await board.save();
 
-    return res
-      .status(201)
-      .json({ column: newBoard.columns[newBoard.columns.length - 1] });
+    return res.json({ column: newBoard.columns[newBoard.columns.length - 1] });
   } catch (err) {
     const errors = handleErrors(err);
     return res.status(400).json(errors);
@@ -106,6 +105,19 @@ export const editColumn = async (req, res) => {
     const errors = handleErrors(err);
     return res.status(400).json(errors);
   }
+};
+
+export const moveColumn = async (req, res) => {
+  const board = await Board.findById(req.params.boardId);
+  if (!board) return res.status(400).json({ msg: "Board not found" });
+
+  console.log(board.columnOrder);
+  board.columnOrder.splice(req.body.indexStart, 1);
+  board.columnOrder.splice(req.body.indexEnd, 0, req.body.columnId);
+  console.log(board.columnOrder);
+
+  await board.save();
+  return res.json({ msg: board.columnOrder });
 };
 
 export const moveTaskSameColumn = async (req, res) => {

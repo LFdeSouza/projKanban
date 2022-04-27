@@ -6,7 +6,7 @@ import TaskMemo from "./TaskMemo";
 import { useDispatch } from "react-redux";
 import { addTask } from "../../redux/actions/board";
 
-const Column = ({ column, tasks, index }) => {
+const Column = ({ column, tasks, index, boardId }) => {
   const [taskForm, setTaskForm] = useState(false);
   const [newTask, setNewTask] = useState("");
   const dispatch = useDispatch();
@@ -14,7 +14,7 @@ const Column = ({ column, tasks, index }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     if (newTask === "") return;
-    dispatch(addTask(newTask, column._id));
+    dispatch(addTask(newTask, boardId, column._id));
     setNewTask("");
     setTaskForm(false);
   };

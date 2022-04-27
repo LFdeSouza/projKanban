@@ -50,8 +50,9 @@ export const createBoard = (title) => async (dispatch) => {
   const body = JSON.stringify({ title });
 
   try {
-    await axios.post("/api/boards", body, config);
-    dispatch({ type: C.CREATE_BOARD, payload: title });
+    const res = await axios.post("/api/boards", body, config);
+
+    dispatch({ type: C.CREATE_BOARD, payload: res.data.board });
   } catch (err) {
     console.log(err.response.data.errors);
   }

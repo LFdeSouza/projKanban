@@ -1,5 +1,4 @@
 import { constants as C } from "./constants";
-import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 
 export const loadBoard = (id) => async (dispatch) => {
@@ -17,9 +16,9 @@ export const addColumn = (id, title) => async (dispatch) => {
     const body = JSON.stringify({ title });
 
     const res = await axios.post(`/api/boards/columns/${id}`, body, config);
-    dispatch({ type: C.ADD_COLUMN, payload: res.data.column.title });
+    dispatch({ type: C.ADD_COLUMN, payload: res.data.column });
   } catch (err) {
-    console.log(err.response.data.errors);
+    console.log(err);
   }
 };
 
@@ -31,24 +30,52 @@ export const moveColumns = (colStart, colEnd, colId) => (dispatch) => {
 };
 
 export const moveTasks =
-  (colStart, colEnd, taskStart, taskEnd, taskId) => (dispatch) => {
+  (boardId, colStart, colEnd, taskStart, taskEnd, taskId) =>
+  async (dispatch) => {
+    const config = { headers: { "Content-Type": "application/json" } };
     if (colStart === colEnd) {
-      return dispatch({
+      const body = JSON.stringify({ colStart, taskStart, taskEnd, taskId });
+      dispatch({
         type: C.MOVE_TASK_TO_SAME_COLUMN,
         payload: { colStart, taskStart, taskEnd, taskId },
       });
+      return await axios.put(
+        `/api/boards/columns/taskOrderSameColumn/${boardId}/${colStart}`,
+        body,
+        config
+      );
     }
+    const body = JSON.stringify({
+      colStart,
+      colEnd,
+      taskStart,
+      taskEnd,
+      taskId,
+    });
 
     dispatch({
       type: C.MOVE_TASK_TO_DIFFERENT_COLUMN,
       payload: { colStart, colEnd, taskStart, taskEnd, taskId },
     });
+    return await axios.put(
+      `/api/boards/columns/taskOrderAnotherColumn/${boardId}/${colStart}/${colEnd}`,
+      body,
+      config
+    );
   };
 
-export const addTask = (title, columnId) => (dispatch) => {
+export const addTask = (title, boardId, columnId) => async (dispatch) => {
+  const config = { headers: { "Content-Type": "application/json" } };
+  const body = JSON.stringify({ title });
+
+  const res = await axios.post(
+    `/api/boards/tasks/${boardId}/${columnId}`,
+    body,
+    config
+  );
   dispatch({
     type: C.ADD_TASK,
-    payload: { title, columnId, id: uuidv4() },
+    payload: { task: res.data.task, columnId },
   });
 };
 

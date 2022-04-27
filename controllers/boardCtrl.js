@@ -74,12 +74,14 @@ export const createColumn = async (req, res) => {
     const board = await Board.findById(req.params.id);
     if (!board) return res.status(400).json({ msg: "Board not found" });
 
-    const column = req.body;
-    board.columns.push(column);
+    // const column = req.body;
+    board.columns.push(req.body);
 
-    await board.save();
+    const newBoard = await board.save();
 
-    return res.status(201).json({ column });
+    return res
+      .status(201)
+      .json({ column: newBoard.columns[newBoard.columns.length - 1] });
   } catch (err) {
     const errors = handleErrors(err);
     return res.status(400).json(errors);
@@ -106,15 +108,14 @@ export const editColumn = async (req, res) => {
   }
 };
 
-export const updateColumnTaskOrder = async (req, res) => {
+export const moveTaskSameColumn = async (req, res) => {
   try {
     const board = await Board.findById(req.params.boardId);
     if (!board) return res.status(400).json({ msg: "Board not found" });
 
-    console.log(board);
-    const column = board.columns.id(req.params.columnId);
+    const column = board.columns.id(req.body.colStart);
     if (!column) return res.status(400).json({ msg: "Column not found" });
-    console.log(column);
+
     //Remove task from array
     column.taskIds.splice(req.body.taskStart, 1);
 
@@ -122,6 +123,30 @@ export const updateColumnTaskOrder = async (req, res) => {
     column.taskIds.splice(req.body.taskEnd, 0, req.body.taskId);
     await board.save();
     return res.json({ taskOrder: column.taskOrder });
+  } catch (err) {
+    const errors = handleErrors(err);
+    return res.status(400).json(errors);
+  }
+};
+
+export const moveTaskAnotherColumn = async (req, res) => {
+  try {
+    const board = await Board.findById(req.params.boardId);
+    if (!board) return res.status(400).json({ msg: "Board not found" });
+
+    const startColumn = board.columns.id(req.body.colStart);
+    if (!startColumn) return res.status(400).json({ msg: "Column not found" });
+
+    const endColumn = board.columns.id(req.body.colEnd);
+    if (!endColumn) return res.status(400).json({ msg: "column not found" });
+
+    //Remove task from array
+    startColumn.taskIds.splice(req.body.taskStart, 1);
+
+    //Add task to new position
+    endColumn.taskIds.splice(req.body.taskEnd, 0, req.body.taskId);
+    await board.save();
+    return res.json({ taskOrder: req.body.colEnd.taskOrder });
   } catch (err) {
     const errors = handleErrors(err);
     return res.status(400).json(errors);
@@ -155,16 +180,16 @@ export const createTask = async (req, res) => {
     if (!column)
       return res.status(400).json({ msg: { msg: "Column not found" } });
 
-    board.tasks.unshift({
+    board.tasks.push({
       title: req.body.title,
       description: req.body.description,
       label: req.body.label,
     });
 
-    column.taskIds.push(board.tasks[0]);
+    column.taskIds.push(board.tasks[board.tasks.length - 1]);
 
     await board.save();
-    res.status(201).json({ board });
+    res.status(201).json({ task: board.tasks[board.tasks.length - 1] });
   } catch (err) {
     const errors = handleErrors(err);
     return res.status(400).json({ errors });

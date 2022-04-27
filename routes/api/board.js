@@ -8,7 +8,8 @@ import {
   createColumn,
   editColumn,
   editBoard,
-  updateColumnTaskOrder,
+  moveTaskSameColumn,
+  moveTaskAnotherColumn,
   deleteColumn,
   createTask,
   editTask,
@@ -28,10 +29,16 @@ boardRouter.delete("/:id", requireAuth, deleteBoard);
 boardRouter.post("/columns/:id", requireAuth, createColumn);
 boardRouter.put("/columns/:boardId/:columnId", requireAuth, editColumn);
 boardRouter.put(
-  "/columns/taskOrder/:boardId/:columnId",
+  "/columns/taskOrderSameColumn/:boardId/:columnId",
   requireAuth,
-  updateColumnTaskOrder
+  moveTaskSameColumn
 );
+boardRouter.put(
+  "/columns/taskOrderAnotherColumn/:boardId/:columnStart/:columnEnd",
+  requireAuth,
+  moveTaskAnotherColumn
+);
+
 boardRouter.delete("/columns/:boardId/:columnId", requireAuth, deleteColumn);
 
 // Tasks

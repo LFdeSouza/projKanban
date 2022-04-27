@@ -3,36 +3,10 @@ import { produce } from "immer";
 
 // Dummy data for testing
 const initialState = {
-  tasks: {
-    task1: {
-      _id: "task1",
-      title: "Task 1",
-      description: "",
-      priority: "highest",
-    },
-    task2: {
-      _id: "task2",
-      title: "Task 2",
-      description: "",
-      priority: "lowest",
-    },
-    task3: { _id: "task3", title: "Task 3", description: "", priority: "low" },
-    task4: { _id: "task4", title: "Task 4", description: "" },
-  },
-  columns: {
-    "column-1": {
-      _id: "column-1",
-      title: "To do",
-      taskIds: ["task1", "task2", "task3", "task4"],
-    },
-    "column-2": {
-      _id: "column-2",
-      title: "Doing",
-      taskIds: [],
-    },
-  },
-  //facilitates reordering
+  tasks: {},
+  columns: {},
   columnOrder: [],
+  id: null,
 };
 
 const board = (state = initialState, action) => {
@@ -45,10 +19,14 @@ const board = (state = initialState, action) => {
           draft.columnOrder.push(column._id);
         });
         payload.tasks.forEach((task) => (draft.tasks[task._id] = task));
+        draft.id = payload._id;
       });
 
     case C.ADD_COLUMN:
-      return state;
+      return produce(state, (draft) => {
+        draft.columns[payload._id] = payload;
+        draft.columnOrder.push(payload._id);
+      });
     case C.MOVE_COLUMNS:
       return produce(state, (draft) => {
         draft.columnOrder.splice(payload.colStart, 1);
@@ -74,8 +52,8 @@ const board = (state = initialState, action) => {
       });
     case C.ADD_TASK:
       return produce(state, (draft) => {
-        draft.tasks[payload._id] = { title: payload.title, _id: payload._id };
-        draft.columns[payload.columnId].taskIds.push(payload.id);
+        draft.tasks[payload.task._id] = payload.task;
+        draft.columns[payload.columnId].taskIds.push(payload.task._id);
       });
     case C.EDIT_TASK:
       return produce(state, (draft) => {

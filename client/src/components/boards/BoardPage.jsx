@@ -19,12 +19,16 @@ const Board = () => {
   const state = useSelector((state) => state.board);
 
   useEffect(() => {
-    dispatch(loadBoard(boardId));
+    if (!state.id) {
+      dispatch(loadBoard(boardId));
+    }
   }, [boardId, dispatch]);
 
   const onNewColumn = (e) => {
     e.preventDefault();
     dispatch(addColumn(boardId, columnTitle));
+    setColumnTitle("");
+    setColumnForm(false);
   };
   const onDragEnd = (result) => {
     const { destination, source, draggableId, type } = result;
@@ -51,6 +55,7 @@ const Board = () => {
     // //Moving tasks
     return dispatch(
       moveTasks(
+        boardId,
         source.droppableId,
         destination.droppableId,
         source.index,
@@ -77,12 +82,13 @@ const Board = () => {
                     key={column._id}
                     column={column}
                     tasks={state.tasks}
+                    boardId={boardId}
                     index={index}
                   />
                 );
               })}
               {columnForm ? (
-                <div className="max-h-32 bg-gunmetal-50 p-4 rounded shadow-lg w-[15rem] cursor-pointer">
+                <div className="flex flex-col flex-shrink-0 max-h-32 w-[15rem] p-4 bg-gunmetal-50 rounded shadow-lg  cursor-pointer">
                   <form onSubmit={(e) => onNewColumn(e)}>
                     <input
                       className="p-2 pl-3 bg-gray-100 rounded w-full"
@@ -107,7 +113,7 @@ const Board = () => {
                 </div>
               ) : (
                 <button
-                  className="flex items-center p-2 mr-5 max-h-10 bg-gunmetal-50  rounded-md shadow-lg w-[15rem] cursor-pointer"
+                  className="flex items-center flex-shrink-0 w-[15rem] p-2 mr-5 max-h-10 bg-gunmetal-50  rounded-md shadow-lg  cursor-pointer"
                   onClick={() => setColumnForm(!columnForm)}
                 >
                   <PlusIcon className="w-5 h-5 mr-3 text-gunmetal-300" />

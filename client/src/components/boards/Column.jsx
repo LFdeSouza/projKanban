@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 import PropTypes from "prop-types";
-import { PlusIcon } from "@heroicons/react/solid";
 import TaskMemo from "./TaskMemo";
 import { useDispatch } from "react-redux";
-import { addTask } from "../../redux/actions/board";
+import { addTask, deleteColumn } from "../../redux/actions/board";
+import { PlusIcon, DotsHorizontalIcon } from "@heroicons/react/solid";
 
 const Column = ({ column, tasks, index, boardId }) => {
   const [taskForm, setTaskForm] = useState(false);
   const [newTask, setNewTask] = useState("");
+  const [showDeleteButton, setShowDeleteButton] = useState(false);
   const dispatch = useDispatch();
 
   const onSubmit = (e) => {
@@ -19,19 +20,41 @@ const Column = ({ column, tasks, index, boardId }) => {
     setTaskForm(false);
   };
 
+  const onDeleteColumn = (columnId) => {
+    if (column.taskIds.length) {
+      console.log("Cannot delete column while there are still tasks on it");
+      return;
+    }
+
+    dispatch(deleteColumn(boardId, columnId));
+  };
+
   return (
     <Draggable draggableId={column._id} index={index}>
       {(provided) => (
         <div
-          className="bg-gunmetal-50 min-w-[15rem] h-fit mt-14 p-2 mr-5 rounded shadow-lg "
+          className="column bg-gunmetal-50 min-w-[15rem] h-fit mt-14 p-2 mr-5 rounded shadow-lg "
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
         >
-          {/* <div className="w-[15rem]"> */}
-          <h1 className="p-1 mb-2 font-semibold text-gunmetal-500">
-            {column.title}
-          </h1>
+          <div className="flex items-start justify-between relative">
+            <h1 className="p-1 mb-2 font-semibold text-gunmetal-500">
+              {column.title}
+            </h1>
+            <DotsHorizontalIcon
+              className="delete-column w-5 h-5 invisible text-gunmetal-200 cursor-pointer"
+              onClick={() => setShowDeleteButton(!showDeleteButton)}
+            />
+            {showDeleteButton && (
+              <button
+                className="absolute w-32 h-8  top-6 left-40 bg-gunmetal-500 text-white rounded"
+                onClick={() => onDeleteColumn(column._id)}
+              >
+                Delete column
+              </button>
+            )}
+          </div>
           <Droppable droppableId={column._id}>
             {(provided) => (
               <div
@@ -79,7 +102,6 @@ const Column = ({ column, tasks, index, boardId }) => {
               </div>
             )}
           </Droppable>
-          {/* </div> */}
         </div>
       )}
     </Draggable>

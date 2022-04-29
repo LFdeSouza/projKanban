@@ -29,7 +29,11 @@ boardRouter.delete("/:id", requireAuth, deleteBoard);
 // Columns
 boardRouter.post("/columns/:id", requireAuth, createColumn);
 boardRouter.put("/columns/:boardId/:columnId", requireAuth, editColumn);
-boardRouter.put("/column/moveColumn/:boardId", requireAuth, moveColumn);
+boardRouter.put(
+  "/columns/moveColumn/:boardId/:columnId",
+  requireAuth,
+  moveColumn
+);
 boardRouter.put(
   "/columns/taskOrderSameColumn/:boardId/:columnId",
   requireAuth,

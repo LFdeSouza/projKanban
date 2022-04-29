@@ -13,7 +13,6 @@ const board = (state = initialState, action) => {
   switch (type) {
     case C.LOAD_BOARD:
       state = initialState;
-      console.log(payload);
       return produce(state, (draft) => {
         payload.columns.forEach((column) => {
           draft.columns[column._id] = column;
@@ -28,6 +27,15 @@ const board = (state = initialState, action) => {
         draft.columns[payload._id] = payload;
         draft.columnOrder.push(payload._id);
       });
+    case C.DELETE_COLUMN:
+      const columnIndex = state.columnOrder.findIndex(
+        (item) => item === payload
+      );
+      return produce(state, (draft) => {
+        delete draft.columns[payload];
+        draft.columnOrder.splice(columnIndex, 1);
+      });
+
     case C.MOVE_COLUMNS:
       return produce(state, (draft) => {
         draft.columnOrder.splice(payload.indexStart, 1);

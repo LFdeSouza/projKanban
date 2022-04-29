@@ -23,4 +23,8 @@
   .task:hover .edit-task {
     @apply visible;
   }
+
+  .column:hover .delete-column {
+    @apply visible;
+  }
 }

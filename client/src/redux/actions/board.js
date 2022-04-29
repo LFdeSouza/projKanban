@@ -22,6 +22,12 @@ export const addColumn = (id, title) => async (dispatch) => {
   }
 };
 
+export const deleteColumn = (boardId, columnId) => async (dispatch) => {
+  await axios.delete(`/api/boards/columns/${boardId}/${columnId}`);
+
+  dispatch({ type: C.DELETE_COLUMN, payload: columnId });
+};
+
 export const moveColumns =
   (boardId, indexStart, indexEnd, columnId) => async (dispatch) => {
     dispatch({
@@ -32,7 +38,7 @@ export const moveColumns =
     const config = { headers: { "Content-Type": "application/json" } };
     const body = JSON.stringify({ boardId, indexStart, indexEnd, columnId });
     return await axios.put(
-      `/api/boards/column/moveColumn/${boardId}`,
+      `/api/boards/columns/moveColumn/${boardId}/${columnId}`,
       body,
       config
     );

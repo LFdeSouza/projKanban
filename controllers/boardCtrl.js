@@ -111,10 +111,8 @@ export const moveColumn = async (req, res) => {
   const board = await Board.findById(req.params.boardId);
   if (!board) return res.status(400).json({ msg: "Board not found" });
 
-  console.log(board.columnOrder);
   board.columnOrder.splice(req.body.indexStart, 1);
-  board.columnOrder.splice(req.body.indexEnd, 0, req.body.columnId);
-  console.log(board.columnOrder);
+  board.columnOrder.splice(req.body.indexEnd, 0, req.params.columnId);
 
   await board.save();
   return res.json({ msg: board.columnOrder });
@@ -173,6 +171,11 @@ export const deleteColumn = async (req, res) => {
     const column = board.columns.id(req.params.columnId);
     if (!column) return res.status(400).json({ msg: "Column not found" });
 
+    const columnIndex = board.columnOrder.findIndex(
+      (item) => item === req.body.column
+    );
+
+    board.columnOrder.splice(columnIndex, 1);
     column.remove();
     await board.save();
 

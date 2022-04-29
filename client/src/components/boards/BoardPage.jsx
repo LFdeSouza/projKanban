@@ -19,7 +19,7 @@ const Board = () => {
   const state = useSelector((state) => state.board);
 
   useEffect(() => {
-    if (state.id === boardId) console.log("true");
+    if (state.id === boardId) return;
     dispatch(loadBoard(boardId));
   }, [boardId, dispatch]);
 
